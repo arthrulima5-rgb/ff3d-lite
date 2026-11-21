@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Liberação - FF 3D Lite</title>
+    <style>
+        body { background: #0b0d10; color: #e6edf3; font-family: system-ui, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #14181d; border: 1px solid #232a31; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; }
+        h1 { color: #ff6a00; font-size: 20px; margin-top: 0; letter-spacing: 1px; }
+        p { font-size: 13px; color: #8b949e; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; background: #0b0d10; border: 1px solid #232a31; border-radius: 8px; color: #fff; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; text-align: center; }
+        input:focus { outline: none; border-color: #ff6a00; }
+        button { width: 100%; padding: 14px; background: #ff6a00; border: none; border-radius: 8px; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #ff8c33; }
+        .key-result { margin-top: 20px; padding: 15px; background: rgba(46, 204, 113, 0.1); border: 1px solid #2ecc71; border-radius: 8px; display: none; }
+        .key-result h2 { margin: 0 0 10px; color: #2ecc71; font-size: 14px; }
+        .key-code { font-family: monospace; font-size: 18px; letter-spacing: 2px; color: #fff; user-select: all; }
+        .error-msg { color: #e74c3c; font-size: 13px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FF 3D LITE</h1>
+        <p>Gere sua chave de acesso ao Mod Menu exclusivo.</p>
+        
+        <input type="text" id="nick-input" placeholder="Digite seu Nick (ex: Matador)">
+        <button onclick="generateKey()">GERAR CHAVE</button>
+        
+        <div class="error-msg" id="error">O Nick deve ter pelo menos 3 caracteres.</div>
+        
+        <div class="key-result" id="result">
+            <h2>Chave Gerada com Sucesso!</h2>
+            <p>Copie o código abaixo e cole no jogo:</p>
+            <div class="key-code" id="key-output"></div>
+            <p style="margin-top: 10px; font-size: 11px;">Chave válida apenas para este Nick.</p>
+        </div>
+    </div>
+
+    <script>
+        function generateKey() {
+            const nick = document.getElementById('nick-input').value.trim();
+            const errorEl = document.getElementById('error');
+            const resultEl = document.getElementById('result');
+            
+            if (nick.length < 3) {
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+            
+            // A chave gerada é o Nick + _FF3D
+            // Isso combina com a validação no código do jogo (validateKey)
+            const key = nick.replace(/[^a-zA-Z0-9]/g, '') + '_FF3D';
+            
+            document.getElementById('key-output').textContent = key;
+            resultEl.style.display = 'block';
+            
+            // Auto-copia para a área de transferência
+            navigator.clipboard.writeText(key).then(() => {
+                console.log("Chave copiada!");
+            });
+        }
+    </script>
+</body>
+</html>
